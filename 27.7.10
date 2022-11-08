@@ -1,0 +1,42 @@
+public class Solution {
+    public static List<Person> allPeople = new ArrayList<Person>();
+
+    static {
+        allPeople.add(Person.createMale("Иванов Иван", new Date()));  //сегодня родился    id=0
+        allPeople.add(Person.createMale("Петров Петр", new Date()));  //сегодня родился    id=1
+    }
+
+    public static void main(String[] args) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+        SimpleDateFormat dateFormat1 = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+
+        switch (args[0]) {
+            case "-c":
+                Date date = dateFormat.parse(args[3]);
+                allPeople.add((args[2].equals("м")) ? Person.createMale(args[1],date) : Person.createFemale(args[1],date));
+                System.out.println(allPeople.size()-1);
+                break;
+            case "-r":
+                Date date1 = allPeople.get(Integer.parseInt(args[1])).getBirthDate();
+                System.out.println(allPeople.get(Integer.parseInt(args[1])).getName() + " ");
+                System.out.println(allPeople.get(Integer.parseInt(args[1])).getSex() == Sex.MALE ? "м" : "ж" + " ");
+                System.out.println(dateFormat1.format(date1));
+                break;
+            case "-u":
+                Date date2 = dateFormat.parse(args[4]);
+                allPeople.set(Integer.parseInt(args[1]), (args[2].equals("м")) ? Person.createMale(args[2],date2) : Person.createFemale(args[2],date2));
+                break;
+            case "-d":
+                allPeople.get(Integer.parseInt(args[1])).setName(null);
+                allPeople.get(Integer.parseInt(args[1])).setSex(null);
+                allPeople.get(Integer.parseInt(args[1])).setBirthDate(null);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + args[0]);
+        }
+                   
+        }
+        
+
+    
+}
